@@ -37,8 +37,14 @@ typedef struct {
     uint32_t ecc [ECC_SIZE];
 } Packet;
 
-void sendPacket(Packet packet);
-void receivePacket(Packet packet);
-Packet injectError(Packet packet, uint16_t nb_errors);
+typedef struct {
+    Packet packet_error;
+    int num_errors;
+    int error_loc[32];  // Armazena até 32 locais de erro, pode ser ajustado conforme necessário
+} multi_return;
+
+// void sendPacket(Packet packet);
+// void receivePacket(Packet packet);
+// Packet injectError(Packet packet, uint16_t nb_errors);
 
 #endif  /*PACKET_H*/
