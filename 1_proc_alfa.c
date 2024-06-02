@@ -11,6 +11,7 @@ int main (){
     connection_t con_beta;
     uint8_t file_content[PAYLOAD_SIZE*4];
     FILE * input_fptr;
+    FILE * log_fptr;
 
     //Statistics
     uint32_t nb_ack     = 0;
@@ -54,11 +55,18 @@ int main (){
     printf("N# ACK      : %d\n", nb_ack);
     printf("N# ACK ERROR: %d\n", nb_ack_err);
     printf("N# NACK     : %d\n", nb_nack);
+    printf("\n");
     close_connect(&con_inject);
     close_connect(&con_beta);
-    printf("\n");
-
     fclose(input_fptr);
+
+    //Writing Statistics
+    log_fptr = fopen("alfa_log_file", "w+");
+    fprintf(log_fptr, "Statisticas:\n");
+    fprintf(log_fptr,"N# ACK      : %d\n", nb_ack);
+    fprintf(log_fptr,"N# ACK ERROR: %d\n", nb_ack_err);
+    fprintf(log_fptr,"N# NACK     : %d\n", nb_nack);
+    fclose(log_fptr);
 
     printf("[PROC_ALFA] Finishing Process Alfa ...\n");
     return 0;

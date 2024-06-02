@@ -12,8 +12,10 @@ int main (){
     error_config_t error_cfg;
     connection_t con_alfa;
     connection_t con_beta;
+    FILE * log_fptr;
 
     printf("[ERROR_INJECTOR] Starting Process Error Injector ...\n");
+    log_fptr = fopen("inject_log_file", "w+"); //Open logfile
     reset_mask(&packet_mask); //Reset mask
     reset_cfg(&error_cfg); //Reset configuration
     printf("[ERROR_INJECTOR] Waiting connection with Beta...\n");
@@ -23,6 +25,7 @@ int main (){
     while(1) {
         scen = rand_select_scenario(&packet_mask);
         printf("[ERROR_INJECTOR] Scenario %d configured...\n", scen);
+        fprintf(log_fptr, "[ERROR_INJECTOR] Scenario %d configured...\n", scen);
         printf("[ERROR_INJECTOR] Waiting for packet ...\n");
         recv_pckt(&packet, &con_alfa);
         //[call the injection error method here]
@@ -34,6 +37,7 @@ int main (){
 
     close_connect(&con_beta);
     close_connect(&con_alfa);
+    fclose(log_fptr);
     printf("[ERROR_INJECTOR] Finishing Process Error Injector ...\n");
     return 0;
 }
