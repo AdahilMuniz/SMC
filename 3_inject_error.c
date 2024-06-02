@@ -15,7 +15,6 @@ int main (){
     FILE * log_fptr;
 
     printf("[ERROR_INJECTOR] Starting Process Error Injector ...\n");
-    log_fptr = fopen("inject_log_file", "w+"); //Open logfile
     reset_mask(&packet_mask); //Reset mask
     reset_cfg(&error_cfg); //Reset configuration
     printf("[ERROR_INJECTOR] Waiting connection with Beta...\n");
@@ -23,6 +22,7 @@ int main (){
     printf("[ERROR_INJECTOR] Waiting connection with Alfa...\n");
     connect(&con_alfa, CHANNEL_0, "rb+");//Channel 0 is the communication channel between Error Injector and Alfa
     while(1) {
+        log_fptr = fopen("inject_log_file", "a+"); //Open logfile
         scen = rand_select_scenario(&packet_mask);
         printf("[ERROR_INJECTOR] Scenario %d configured...\n", scen);
         fprintf(log_fptr, "[ERROR_INJECTOR] Scenario %d configured...\n", scen);
@@ -33,11 +33,11 @@ int main (){
         print_packet(packet, PAYLOAD_SIZE);
         send_pckt(packet, &con_beta); //@NOTE: Just bypassa the packet with errors
         reset_mask(&packet_mask);
+        fclose(log_fptr);//@NOTE: For some reason, we need to open and close the file for each written packet
     }
 
     close_connect(&con_beta);
     close_connect(&con_alfa);
-    fclose(log_fptr);
     printf("[ERROR_INJECTOR] Finishing Process Error Injector ...\n");
     return 0;
 }
