@@ -53,6 +53,6 @@ void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_ty
 void close_connect(connection_t * connection);
 
 void send_pckt(packet_t packet, connection_t * connection);
-void recv_pckt(packet_t * packet, uint8_t * connection);
+void recv_pckt(packet_t * packet, connection_t * connection);
 uint8_t rcv_ack();
 #endif  /*PACKET_H*/

@@ -63,8 +63,13 @@ void print_packet(packet_t packet, uint32_t payload_size){
     printf("\n");
 }
 
+//@NOTE: Blocking method
 void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_type){
     connection->fptr = fopen((char * ) channel_name, (char * )con_type);
+    while (connection->fptr == NULL){
+        connection->fptr = fopen((char * ) channel_name, (char * )con_type);
+    }
+    
     connection->channel_name = channel_name;
 }
 
@@ -79,9 +84,6 @@ void send_pckt(packet_t packet, connection_t * connection){
 }
 
 //@NOTE: Blocking method
-void recv_pckt(packet_t * packet, uint8_t * connection){
-    FILE *fptr;
-    fptr = fopen((char * ) connection, "r");
-    while (!fgets((char *)packet, PACKET_SIZE*4, fptr));
-    fclose(fptr);
+void recv_pckt(packet_t * packet, connection_t * connection){
+    while (!fread((char *)packet, PACKET_SIZE*4, 1, connection->fptr));
 }

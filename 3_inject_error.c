@@ -1,7 +1,9 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "packet.h"
 
-// Packet injectError(Packet packet, uint16_t nb_errors) {
-//     Packet result_packet;
+// packet_t injectError(packet_t packet, uint16_t nb_errors) {
+//     packet_t result_packet;
 //     uint16_t position = 0;
 
 //     result_packet = packet;
@@ -14,12 +16,12 @@
 // }
 
 // typedef struct {
-//     Packet packet_error;
+//     packet_t packet_error;
 //     int num_errors;
 //     int error_loc;
 // } multi_return;
 
-// Packet inject_error(Packet packet_error) {
+// packet_t inject_error(packet_t packet_error) {
 //     int field = rand() % 3;  // Escolhe aleatoriamente entre Service Header, Payload e ECC
 //     switch (field) {
 //         case 0: {  // Erro no Service Header
@@ -41,7 +43,7 @@
 //     return packet_error;
 // }
 
-multi_return injectErrors(Packet packet, uint16_t nb_errors) {
+multi_return injectErrors(packet_t packet, uint16_t nb_errors) {
     multi_return result;
     result.packet_error = packet;
     result.num_errors = nb_errors;
@@ -71,4 +73,24 @@ multi_return injectErrors(Packet packet, uint16_t nb_errors) {
         }
     }
     return result;
+}
+
+
+int main (){
+    uint32_t payload [PAYLOAD_SIZE];
+    packet_t packet;
+    connection_t con;
+
+    printf("[ERROR_INJECTOR] Starting Process Error Injector ...\n");
+    printf("[ERROR_INJECTOR] Waiting connection ...\n");
+    connect(&con, CHANNEL_0, "rb+");//Channel 0 is the communication channel between Error Injector and Alfa
+    while(1) {
+        printf("[ERROR_INJECTOR] Waiting for packet ...\n");
+        recv_pckt(&packet, &con);
+        print_packet(packet, PAYLOAD_SIZE);
+    }
+
+    close_connect(&con);
+    printf("[ERROR_INJECTOR] Finishing Process Error Injector ...\n");
+    return 0;
 }
