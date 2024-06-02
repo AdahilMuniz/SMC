@@ -194,3 +194,20 @@ void scenario6(packet_t * packet_mask){
     error_cfg.nb_error = 1;
     configure_error(packet_mask, error_cfg);
 }
+
+uint8_t rand_select_scenario(packet_t * packet_mask){
+    uint8_t scne = rand() % SCENARIO_NB;
+
+    switch (scne){
+        case 0 : scenario0(packet_mask); break;
+        case 1 : scenario1(packet_mask); break;
+        case 2 : scenario2(packet_mask); break;
+        case 3 : scenario3(packet_mask); break;
+        case 4 : scenario4(packet_mask); break;
+        case 5 : scenario5(packet_mask); break;
+        case 6 : scenario6(packet_mask); break;
+        default: scenario0(packet_mask); break;
+    }
+    
+    return scne;
+}

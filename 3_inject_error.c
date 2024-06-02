@@ -8,6 +8,7 @@ int main (){
     uint32_t payload [PAYLOAD_SIZE];
     packet_t packet;
     packet_t packet_mask;
+    uint8_t scen;
     error_config_t error_cfg;
     connection_t con_alfa;
     connection_t con_beta;
@@ -20,7 +21,8 @@ int main (){
     printf("[ERROR_INJECTOR] Waiting connection with Alfa...\n");
     connect(&con_alfa, CHANNEL_0, "rb+");//Channel 0 is the communication channel between Error Injector and Alfa
     while(1) {
-        scenario1(&packet_mask);
+        scen = rand_select_scenario(&packet_mask);
+        printf("[ERROR_INJECTOR] Scenario %d configured...\n", scen);
         printf("[ERROR_INJECTOR] Waiting for packet ...\n");
         recv_pckt(&packet, &con_alfa);
         //[call the injection error method here]

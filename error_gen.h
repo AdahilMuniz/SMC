@@ -10,6 +10,8 @@
     #define RAND_FLIT  0b00000010
     #define RAND_POS   0b00000100
 
+    #define SCENARIO_NB 7
+
     typedef enum {
         SH_FIELD,
         PAYLOAD_FIELD,
@@ -32,5 +34,11 @@
     //Scenarios
     void scenario0(packet_t * packet_mask);
     void scenario1(packet_t * packet_mask);
+    void scenario2(packet_t * packet_mask);
+    void scenario3(packet_t * packet_mask);
+    void scenario4(packet_t * packet_mask);
+    void scenario5(packet_t * packet_mask);
+    void scenario6(packet_t * packet_mask);
+    uint8_t rand_select_scenario(packet_t * packet_mask);
 
 #endif  /*ERROR_GEN_H*/
