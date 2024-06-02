@@ -20,8 +20,11 @@ int main(){
     while(1) {
         printf("[PROC_BETA] Waiting for packet ...\n");
         recv_pckt(&packet, &con_inject);
+        printf("[PROC_BETA] Packet before correction:\n");
         print_packet(packet, PAYLOAD_SIZE);
         packet_err = decode_packet(&packet, PAYLOAD_SIZE, 2024, pkt_nb);
+        printf("[PROC_BETA] Packet after correction:\n");
+        print_packet(packet, PAYLOAD_SIZE);
         if (packet_err == ECC_DE || packet_err == WRONG_SEQ_NB){
             send_ackno_reply(NACK, &con_alfa);
             pkt_nb = pkt_nb;
@@ -35,7 +38,6 @@ int main(){
             //Do nothing (Different Target)
             pkt_nb ++;
         }
-        printf("PCKT ERROR: %d\n", packet_err);
     }
 
     close_connect(&con_alfa);

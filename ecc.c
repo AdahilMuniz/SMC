@@ -103,16 +103,12 @@ error_t hamDecode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_
 
     //Check and correct
     if (!(synd & mask) && !(synd & ~mask)){
-
         err = NO_ERROR;
     } else if (!(synd & mask) && (synd & ~mask)){
-
         err = SE;
     } else if ((synd & mask) && !(synd & ~mask)){
-
         err = DE;
     } else {
-
         err = SE;
 
         synd = (synd & mask) >> (8-nb_redbits);

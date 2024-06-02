@@ -79,7 +79,7 @@ pkt_error_t decode_packet(packet_t * packet, uint32_t payload_size, uint32_t exp
         if (errs[i] == DE){ // @NOTE: When a DE is found, the function returns since the pakcet will need to be resent.
             pkt_error = ECC_DE;
             return pkt_error;
-        } else if (errs[i] == DE){
+        } else if (errs[i] == SE){
             pkt_error = ECC_SE;
         }
     }
