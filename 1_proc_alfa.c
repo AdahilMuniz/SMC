@@ -40,10 +40,13 @@ int main (){
         send_pckt(packet, &con_inject);
         printf("[PROC_ALFA] Waiting for acknowledgement ...\n");
         recv_ackno_reply(&reply, &con_beta);
-        if (reply == NACK){
+        while (reply == NACK){
           nb_nack++;
           pkt_nb = pkt_nb;
-        } else if (reply == ACK_ERR){
+          send_pckt(packet, &con_inject);
+          recv_ackno_reply(&reply, &con_beta);
+        }
+        if (reply == ACK_ERR){
           nb_ack_err++;
           pkt_nb ++;
         } else {
