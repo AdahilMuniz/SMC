@@ -62,3 +62,26 @@ void print_packet(packet_t packet, uint32_t payload_size){
     }
     printf("\n");
 }
+
+void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_type){
+    connection->fptr = fopen((char * ) channel_name, (char * )con_type);
+    connection->channel_name = channel_name;
+}
+
+void close_connect(connection_t * connection){
+    fclose(connection->fptr);
+}
+
+//@NOTE: It could be better if it was created a method to open the file and other to write or use socket, but
+//I do not have time for this right now :).
+void send_pckt(packet_t packet, connection_t * connection){
+    fwrite(&packet, PACKET_SIZE*4, 1, connection->fptr);
+}
+
+//@NOTE: Blocking method
+void recv_pckt(packet_t * packet, uint8_t * connection){
+    FILE *fptr;
+    fptr = fopen((char * ) connection, "r");
+    while (!fgets((char *)packet, PACKET_SIZE*4, fptr));
+    fclose(fptr);
+}
