@@ -4,8 +4,10 @@
 
 int main () {
 
-    uint32_t data_in[2] = {0xBEBACAFE, 0xDEADBEEF}; 
-    uint32_t data_err[2] = {0xBFBACAFE, 0xDEADBEEF}; 
+    //uint32_t data_in[2] = {0xBEBACAFE, 0xDEADBEEF}; 
+    //uint32_t data_err[2] = {0xBFBACAFE, 0xDEADBEEF}; 
+    uint32_t data_in[2] = {0x00000000, 0x00000001}; 
+    uint32_t data_err[2] = {0x00000000, 0x00000001}; 
     uint8_t ecc;
     error_t err;
 
