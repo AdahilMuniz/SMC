@@ -50,7 +50,7 @@ void encode_packet(uint32_t * payload, packet_t * packet, uint32_t payload_size,
  * \param expec_seq_nb Expected header Packet Sequence Number.
  * \return pkt_error_t indicating the error type found.
  */
-//@NOTE: There is a hierarchy between the erros ECC_DE > ECC_SE > WRONG_SEQ_NB > WRONg_TARGET.
+//@NOTE: There is a hierarchy between the erros ECC_DE > ECC_SE > WRONG_SEQ_NB > WRONG_TARGET.
 //It is possible to representing all the errors setting bits of a uint8_t, but it will take more
 //to develop the caller and I do not have time right now.
 pkt_error_t decode_packet(packet_t * packet, uint32_t payload_size, uint32_t expec_target, uint32_t expec_seq_nb){
