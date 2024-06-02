@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <unistd.h>
 #include "ecc.h"
 
 //@NOTE: All sizes are defined in number of flits
@@ -38,6 +37,20 @@ typedef struct {
     uint8_t ecc [ECC_SIZE*4];
 } packet_t;
 
+typedef enum {
+    NONE,
+    WRONG_TARGET,
+    WRONG_SEQ_NB,
+    ECC_SE,
+    ECC_DE,
+} pkt_error_t;
+
+typedef enum {
+    ACK,
+    ACK_ERR,
+    NACK,
+} ackno_packet_t;
+
 typedef struct {
     packet_t packet_error;
     int num_errors;
@@ -49,6 +62,7 @@ typedef struct {
 // packet_t injectError(packet_t packet, uint16_t nb_errors);
 
 void encode_packet(uint32_t * payload, packet_t * packet, uint32_t payload_size, uint32_t target, uint32_t pckt_seq_nb);
+pkt_error_t decode_packet(packet_t * packet, uint32_t payload_size, uint32_t expec_target, uint32_t expec_seq_nb);
 void print_packet(packet_t packet, uint32_t payload_size);
 
 void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_type);
@@ -56,5 +70,8 @@ void close_connect(connection_t * connection);
 
 void send_pckt(packet_t packet, connection_t * connection);
 void recv_pckt(packet_t * packet, connection_t * connection);
-uint8_t rcv_ack();
+
+void send_ackno_reply(ackno_packet_t reply, connection_t * connection);
+void recv_ackno_reply(ackno_packet_t * reply, connection_t * connection);
+
 #endif  /*PACKET_H*/
