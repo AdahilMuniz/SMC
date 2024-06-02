@@ -185,10 +185,10 @@ void scenario5(packet_t * packet_mask){
 }
 
 void scenario6(packet_t * packet_mask){
-    // Single Error in SH field and random flit and positions
+    // Single Error in ECC field and random flit and positions
     error_config_t error_cfg;
     error_cfg.error_rand = RAND_FLIT | RAND_POS;
-    error_cfg.field = SH_FIELD;
+    error_cfg.field = ECC_FIELD;
     error_cfg.flit;
     error_cfg.position;
     error_cfg.nb_error = 1;
