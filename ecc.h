@@ -2,6 +2,7 @@
 #define  ECC_H
 
     #include <stdint.h>
+    #include <stdio.h>
 
     //Mask difines consider 32 bit data
     #define MASK_D1 0b10000000000000000000000000000000
@@ -24,6 +25,8 @@
         uint8_t ecc;
     } hamm32_t;
     */
+
+    uint8_t hamEncode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits);
 
     void    encode(uint32_t * data_in, uint32_t * data_out);
     error_t decode(uint32_t * data_in, uint32_t * data_out);
