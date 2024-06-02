@@ -10,16 +10,16 @@ int main (){
     connection_t con_inject;
     connection_t con_beta;
     uint8_t file_content[PAYLOAD_SIZE*4];
-    FILE * fptr;
+    FILE * input_fptr;
 
     //Statistics
     uint32_t nb_ack     = 0;
     uint32_t nb_ack_err = 0;
     uint32_t nb_nack    = 0;
 
-    fptr = fopen("input_file", "r");
+    input_fptr = fopen("input_file", "r");
 
-    if(fptr == NULL) { //Check if file exists
+    if(input_fptr == NULL) { //Check if file exists
       printf("[PROC_ALFA] Not able to open the file.");
       return -1;
     }
@@ -29,9 +29,11 @@ int main (){
     connect(&con_inject, CHANNEL_0, "ab+"); //Channel 0 is the communication channel between Alfa and Error Injector
     printf("[PROC_ALFA] Waiting connection with Beta...\n");
     connect(&con_beta, CHANNEL_2, "rb+"); //Channel 2 is the communication channel between Alfa and Beta
-    while(1) {
+    //@NOTE: I developed a version where the process run forever and wait to get something from file.
+    //However, it needs to have a control to close and reopen the file several time, as this is not the 
+    //goal of the project, I gave up on this and did this version that runs until end of file.
+    while(fgets(file_content, PAYLOAD_SIZE*4, input_fptr)) {
         printf("[PROC_ALFA] Waiting for reading file ...\n");
-        while(!fgets(file_content, PAYLOAD_SIZE*4, fptr));
         encode_packet((uint32_t * ) file_content, &packet, PAYLOAD_SIZE, 2024, pkt_nb);
         print_packet(packet, PAYLOAD_SIZE);
         send_pckt(packet, &con_inject);
@@ -47,16 +49,16 @@ int main (){
           nb_ack++;
           pkt_nb ++;
         }
-        printf("Statisticas:\n");
-        printf("N# ACK      : %d\n", nb_ack);
-        printf("N# ACK ERROR: %d\n", nb_ack_err);
-        printf("N# NACK     : %d\n", nb_nack);
     }
+    printf("Statisticas:\n");
+    printf("N# ACK      : %d\n", nb_ack);
+    printf("N# ACK ERROR: %d\n", nb_ack_err);
+    printf("N# NACK     : %d\n", nb_nack);
     close_connect(&con_inject);
     close_connect(&con_beta);
     printf("\n");
 
-    fclose(fptr);
+    fclose(input_fptr);
 
     printf("[PROC_ALFA] Finishing Process Alfa ...\n");
     return 0;
