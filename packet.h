@@ -34,7 +34,7 @@ typedef struct {
     uint32_t size;
     uint32_t service_header[SH_SIZE];
     uint32_t payload[PAYLOAD_SIZE];
-    uint32_t ecc [ECC_SIZE];
+    uint8_t  ecc [ECC_SIZE];
 } Packet;
 
 typedef struct {
