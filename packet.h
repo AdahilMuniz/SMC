@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <unistd.h>
 #include "ecc.h"
 
 //@NOTE: All sizes are defined in number of flits

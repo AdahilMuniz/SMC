@@ -90,5 +90,15 @@ void send_pckt(packet_t packet, connection_t * connection){
 
 //@NOTE: Blocking method
 void recv_pckt(packet_t * packet, connection_t * connection){
-    while (!fread((char *)packet, PACKET_SIZE*4, 1, connection->fptr));
+    static uint32_t offset = 0;
+    uint32_t ret = 0;
+    ret = fread((char *)packet, PACKET_SIZE*4, 1, connection->fptr);
+    if(ret == 1) { offset += (ret*PACKET_SIZE*4); }
+    while (ret != 1){
+        fclose(connection->fptr); //@NOTE: To keep the process up-to-date, we need to close and reopen the file
+        connection->fptr = fopen((char * ) connection->channel_name, (char * )connection->con_type);
+        fseek(connection->fptr, offset, SEEK_SET);
+        ret = fread((char *)packet, PACKET_SIZE*4, 1, connection->fptr);
+        if(ret == 1) { offset += (ret*PACKET_SIZE*4); }
+    }
 }
