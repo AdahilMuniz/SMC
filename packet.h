@@ -19,4 +19,6 @@ typedef struct {
     uint32_t ecc [ECC_SIZE];
 } Packet;
 
+void sendPacket(Packet packet);
+
 #endif  /*PACKET_H*/
