@@ -56,5 +56,6 @@ int main (){
     }
     
     build_packet(payload, &packet, 2024);
+    print_packet(packet);
     return 0;
 }

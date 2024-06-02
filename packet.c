@@ -1,6 +1,6 @@
 #include "packet.h"
 
-//@NOTE: This build packet consider constant PAYLOAD and ECC size
+//@NOTE: The buildd_packet method consider constant PAYLOAD and ECC size
 void build_packet(uint32_t * payload, packet_t * packet, uint32_t target){
     
     packet->target = target;
@@ -16,7 +16,6 @@ void build_packet(uint32_t * payload, packet_t * packet, uint32_t target){
         packet->payload[i] = payload[i];
     }
     
-
     for (int i = 0; i < ECC_SIZE; i++) { // Iterate over each flit of ecc
         for (int j = 0; j < (SH_SIZE + PAYLOAD_SIZE)/ECC_SIZE; j=j+2){ // Iterate over each block of flits
             if (j !=  ((SH_SIZE + PAYLOAD_SIZE)/ECC_SIZE)-1){
@@ -26,5 +25,20 @@ void build_packet(uint32_t * payload, packet_t * packet, uint32_t target){
             }
         }
     }
+}
 
+void print_packet( packet_t packet){
+    printf("Packet:  Target: %u Size: %u Service Header: \n", packet.target, packet.size);
+    for (int i = 0; i < SH_SIZE; i++) {
+        printf("flit[%d]: %x \n", i, packet.service_header[i]);
+    }
+    printf("Payload: \n");
+    for (int i = 0; i < PAYLOAD_SIZE; i++) {
+        printf("flit[%d]: %x \n", i, packet.payload[i]);
+    }
+    printf("ECC: ");
+    for (int i = 0; i < ECC_SIZE*4; i++) {
+        printf("%x ", packet.ecc[i]);
+    }
+    printf("\n");
 }
