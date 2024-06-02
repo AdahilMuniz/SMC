@@ -1,6 +1,8 @@
+#include <stdlib.h>
 #include "packet.h"
 
-void sendPacket(Packet packet) {
+/*
+void sendPacket(packet_t packet) {
     // Simulação do envio do pacote pelo canal de comunicação
     printf("Pacote enviado:  Target: %u Size: %u Service Header: ", packet.target, packet.size);
     for (int i = 0; i < SH_SIZE; i++) {
@@ -15,9 +17,10 @@ void sendPacket(Packet packet) {
         printf("%u ", packet.ecc[i]);
     }
 }
-
-Packet alfa() {
-    Packet packet;
+*/
+/*
+packet_t alfa() {
+    packet_t packet;
     srand(1); // Inicializar o gerador de números aleatórios (sempre igual)
 
     // Preencher os campos do pacote
@@ -41,4 +44,17 @@ Packet alfa() {
     // Enviar o pacote
     sendPacket(packet);
     return packet;
+}
+*/
+
+int main (){
+    uint32_t payload [PAYLOAD_SIZE];
+    packet_t packet;
+
+    for (int i = 0; i < PAYLOAD_SIZE; i++) {
+        payload[i] = rand();
+    }
+    
+    build_packet(payload, &packet, 2024);
+    return 0;
 }

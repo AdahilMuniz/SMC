@@ -1,6 +1,6 @@
 #include "packet.h"
 
-void receivePacket(Packet packet) {
+void receivePacket(packet_t packet) {
     // Simulação do envio do pacote pelo canal de comunicação
     printf("Pacote recebido: Target: %u Size: %u Service Header: ", packet.target, packet.size);
     for (int i = 0; i < SH_SIZE; i++) {
@@ -16,7 +16,7 @@ void receivePacket(Packet packet) {
     }
 }
 
-Packet beta(Packet packet_rec) {
+packet_t beta(packet_t packet_rec) {
      
     // Recebe o pacote
     receivePacket(packet_rec);
