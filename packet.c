@@ -63,6 +63,17 @@ void print_packet(packet_t packet, uint32_t payload_size){
     printf("\n");
 }
 
+/**
+ * \brief Connect to the channel
+ *
+ * This is a blocking method that realeases when the connection is stablished.
+ * 
+ * \param connection Handle connection struct type set when connection is stablished.
+ * \param channel_name Channel name.
+ * \param con_type Type of connection. [ab, rb]
+ * \return Void
+ */
+
 //@NOTE: Blocking method
 void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_type){
     connection->fptr = fopen((char * ) channel_name, (char * )con_type);
@@ -75,12 +86,24 @@ void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_ty
     
 }
 
+/**
+ * \brief Close channel connection
+ * 
+ * \param connection Handle connection struct.
+ * \return Void
+ */
 void close_connect(connection_t * connection){
     fclose(connection->fptr);
 }
 
-//@NOTE: It could be better if it was created a method to open the file and other to write or use socket, but
-//I do not have time for this right now :).
+/**
+ * \brief Send a packet through a connection
+ * 
+ * \param packet Packet struct input.
+ * \param connection Handle connection struct.
+ * \return Void
+ */
+//@NOTE: It could be better if using socket, but I do not have time for this right now :).
 void send_pckt(packet_t packet, connection_t * connection){
     fwrite(&packet, PACKET_SIZE*4, 1, connection->fptr);
     //@NOTE: The file is not written until it is closed, so, we need to open and close connection inside this loop
@@ -88,6 +111,13 @@ void send_pckt(packet_t packet, connection_t * connection){
     connection->fptr = fopen((char * ) connection->channel_name, (char * )connection->con_type);
 }
 
+/**
+ * \brief Receive a packet through a connection
+ * 
+ * \param packet Packet handle struct output.
+ * \param connection Handle connection struct.
+ * \return Void
+ */
 //@NOTE: Blocking method
 void recv_pckt(packet_t * packet, connection_t * connection){
     static uint32_t offset = 0;
