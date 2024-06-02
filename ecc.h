@@ -14,8 +14,8 @@
         DE,
     } error_t;
 
-    uint8_t hamEncode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits);
-    error_t hamDecode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_redbits);
+    uint8_t ham_encode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits);
+    error_t ham_decode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_redbits);
     uint8_t parity(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_redbits);
 
 #endif  /*ECC_H*/

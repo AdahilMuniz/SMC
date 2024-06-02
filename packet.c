@@ -31,9 +31,9 @@ void encode_packet(uint32_t * payload, packet_t * packet, uint32_t payload_size,
     for (int i = 0; i < ECC_SIZE; i++) { // Iterate over each flit of ecc
         for (int j = 0; j < (SH_SIZE + payload_size)/ECC_SIZE; j=j+2){ // Iterate over each block of flits
             if (j !=  ((SH_SIZE + payload_size)/ECC_SIZE)-1){
-                packet->ecc[(j/2) + i*ECC_SIZE] = hamEncode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), 64, 7);
+                packet->ecc[(j/2) + i*ECC_SIZE] = ham_encode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), 64, 7);
             } else {
-                packet->ecc[(j/2) + i*ECC_SIZE] = hamEncode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), 32, 6);
+                packet->ecc[(j/2) + i*ECC_SIZE] = ham_encode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), 32, 6);
             }
         }
     }
@@ -68,9 +68,9 @@ pkt_error_t decode_packet(packet_t * packet, uint32_t payload_size, uint32_t exp
     for (int i = 0; i < ECC_SIZE; i++) { // Iterate over each flit of ecc
         for (int j = 0; j < (SH_SIZE + payload_size)/ECC_SIZE; j=j+2){ // Iterate over each block of flits
             if (j !=  ((SH_SIZE + payload_size)/ECC_SIZE)-1){
-                errs[(j/2) + i*ECC_SIZE] = hamDecode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), packet->ecc[(j/2) + i*ECC_SIZE], 64, 7);
+                errs[(j/2) + i*ECC_SIZE] = ham_decode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), packet->ecc[(j/2) + i*ECC_SIZE], 64, 7);
             } else {
-                errs[(j/2) + i*ECC_SIZE] = hamDecode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), packet->ecc[(j/2) + i*ECC_SIZE], 32, 6);
+                errs[(j/2) + i*ECC_SIZE] = ham_decode(packet->pkt_payload + j + i*((SH_SIZE + payload_size)/ECC_SIZE), packet->ecc[(j/2) + i*ECC_SIZE], 32, 6);
             }
         }
     }

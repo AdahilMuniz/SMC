@@ -22,7 +22,7 @@
  * \return The ECC as a uint8_t type, where the first redundancy bit is in the MSB.
  */
 
-uint8_t hamEncode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits){
+uint8_t ham_encode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits){
     uint8_t ecc = 0;
     uint8_t partial_ecc = 0;
     uint8_t nb_totalbits = nb_databits + nb_redbits;
@@ -72,7 +72,7 @@ uint8_t hamEncode(uint32_t * data_in, uint8_t nb_databits, uint8_t nb_redbits){
  * \return A error_t type indicating the error kind
  */
 
-error_t hamDecode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_redbits){
+error_t ham_decode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_redbits){
     uint8_t recalc_ecc;
     uint8_t synd;
     uint8_t mask = 0;
@@ -84,7 +84,7 @@ error_t hamDecode(uint32_t * data, uint8_t ecc, uint8_t nb_databits, uint8_t nb_
     uint8_t flit = 0;
     uint8_t position = 0;
 
-    recalc_ecc = hamEncode(data, nb_databits, nb_redbits);
+    recalc_ecc = ham_encode(data, nb_databits, nb_redbits);
 
     //OBS.: The parity calculated for recalc_ecc is not correct since it takes into account the just calculated ECC
     //not the previous one, so we have to calculate the correct parity
