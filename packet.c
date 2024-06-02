@@ -71,6 +71,8 @@ void connect(connection_t * connection, uint8_t * channel_name, uint8_t * con_ty
     }
     
     connection->channel_name = channel_name;
+    connection->con_type = con_type;
+    
 }
 
 void close_connect(connection_t * connection){
@@ -81,6 +83,9 @@ void close_connect(connection_t * connection){
 //I do not have time for this right now :).
 void send_pckt(packet_t packet, connection_t * connection){
     fwrite(&packet, PACKET_SIZE*4, 1, connection->fptr);
+    //@NOTE: The file is not written until it is closed, so, we need to open and close connection inside this loop
+    fclose(connection->fptr);
+    connection->fptr = fopen((char * ) connection->channel_name, (char * )connection->con_type);
 }
 
 //@NOTE: Blocking method

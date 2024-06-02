@@ -20,6 +20,7 @@
 
 typedef struct {
     uint8_t * channel_name;
+    uint8_t * con_type;
     FILE * fptr;
 } connection_t;
 
