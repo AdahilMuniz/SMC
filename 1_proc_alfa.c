@@ -9,7 +9,7 @@ int main (){
         payload[i] = rand();
     }
     
-    build_packet(payload, &packet, 2024, 1);
-    print_packet(packet);
+    encode_packet(payload, &packet, PAYLOAD_SIZE, 2024, 1);
+    print_packet(packet, PACKET_SIZE);
     return 0;
 }
