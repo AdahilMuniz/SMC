@@ -1,7 +1,7 @@
 #include "packet.h"
 
 //@NOTE: The buildd_packet method consider constant PAYLOAD and ECC size
-void build_packet(uint32_t * payload, packet_t * packet, uint32_t target){
+void build_packet(uint32_t * payload, packet_t * packet, uint32_t target, uint32_t pckt_seq_nb){
     
     packet->target = target;
     packet->size = SH_SIZE + PAYLOAD_SIZE + ECC_SIZE;
@@ -9,7 +9,7 @@ void build_packet(uint32_t * payload, packet_t * packet, uint32_t target){
     for (int i = 0; i < (SH_SIZE-2); i++) {
         packet->service_header[i] = i;
     }
-    packet->service_header[9] = 1; // Packet sequence number
+    packet->service_header[9] = pckt_seq_nb; // Packet sequence number
     packet->service_header[10] = PAYLOAD_SIZE; // Payload size
     // Copy Payload to avoid reference
     for (int i = 0; i < PAYLOAD_SIZE; i++) {

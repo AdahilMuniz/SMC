@@ -37,6 +37,6 @@ typedef struct {
 // void receivepacket_t(packet_t packet);
 // packet_t injectError(packet_t packet, uint16_t nb_errors);
 
-void build_packet(uint32_t * payload, packet_t * packet, uint32_t target);
+void build_packet(uint32_t * payload, packet_t * packet, uint32_t target, uint32_t pckt_seq_nb);
 void print_packet( packet_t packet);
 #endif  /*PACKET_H*/
